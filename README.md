@@ -4,6 +4,7 @@
 
 <img width="949" height="726" alt="1" src="https://github.com/user-attachments/assets/801bbe65-cc6d-4005-bb75-8f38b2bbfe8f" />
 
+<img width="984" height="717" alt="截屏2025-10-18 20 46 07" src="https://github.com/user-attachments/assets/2b07f84d-e503-4f32-80a8-4fcf898634bc" />
 
 ## 功能特性
 - 两种游戏模式：
