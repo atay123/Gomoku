@@ -2,7 +2,8 @@
 
 这是一个基于 Web 的五子棋游戏，界面简洁、交互友好，支持双人对战与人机对战，内置智能提示与音效反馈。
 
-![我的截图](/Users/rontae/Desktop/1.png)
+<img width="949" height="726" alt="1" src="https://github.com/user-attachments/assets/801bbe65-cc6d-4005-bb75-8f38b2bbfe8f" />
+
 
 ## 功能特性
 - 两种游戏模式：
