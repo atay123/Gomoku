@@ -1,0 +1,359 @@
+::1 - - [18/Oct/2025 13:52:56] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:53:07] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:53:07] code 404, message File not found
+::1 - - [18/Oct/2025 13:53:07] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:53:13] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:53:13] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:53:13] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:40] "GET / HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 13:56:40] "GET /style.css HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 13:56:40] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:40] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:40] "GET /ui.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 13:56:51] code 404, message File not found
+::1 - - [18/Oct/2025 13:56:51] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:56:56] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:56] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:56] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:56:56] code 404, message File not found
+::1 - - [18/Oct/2025 13:56:56] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:57:16] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:23] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:31] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:31] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:31] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:32] code 404, message File not found
+::1 - - [18/Oct/2025 13:57:32] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:57:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:59] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:59] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:57:59] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:58:01] code 404, message File not found
+::1 - - [18/Oct/2025 13:58:01] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:59:20] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:59:52] code 404, message File not found
+::1 - - [18/Oct/2025 13:59:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 13:59:52] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 13:59:52] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:00:02] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:00:02] code 404, message File not found
+::1 - - [18/Oct/2025 14:00:02] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:00:11] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:00:42] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:01:03] "GET / HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:01:03] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:01:03] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:05] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:09] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:09] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:09] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:03:09] "GET /ai.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:03:09] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:12] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:12] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:03:14] code 404, message File not found
+::1 - - [18/Oct/2025 14:03:14] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:10] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:10] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:10] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:10] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:10] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:10] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:10] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:10] "GET /new.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:46] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:05:46] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:47] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:49] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:49] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:51] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:51] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:51] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:51] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:52] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:52] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:05:52] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:05:52] code 404, message File not found
+::1 - - [18/Oct/2025 14:05:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:00] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:00] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:00] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:00] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:05] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:05] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:05] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:12] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:12] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:45] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:45] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:06:45] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:45] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:46] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:47] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:48] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:51] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:51] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:51] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:51] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:52] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:06:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:06:52] code 404, message File not found
+::1 - - [18/Oct/2025 14:06:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:07:58] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:58] code 404, message File not found
+::1 - - [18/Oct/2025 14:07:58] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:07:58] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:58] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:58] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:07:58] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET /hint.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET /win.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET /place.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET /reset.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] code 404, message File not found
+::1 - - [18/Oct/2025 14:07:59] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:07:59] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:00] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:00] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:00] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:00] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:00] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:00] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:00] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:00] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:00] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:00] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:01] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:01] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:01] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:01] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:01] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:01] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:01] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:01] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:02] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:02] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:02] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:02] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:02] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:02] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:02] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:02] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:02] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:15] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:15] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:15] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:15] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:15] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:15] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:15] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:15] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:15] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:15] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:15] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:15] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:15] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:16] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:16] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:16] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:19] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:19] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:19] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:19] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:19] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:29] "GET / HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /style.css HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /ui.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /ai.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /win.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /place.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /new.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /hint.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] "GET /reset.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:29] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:29] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:08:32] "GET / HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:32] "GET /place.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:32] "GET /new.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:32] "GET /hint.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:32] "GET /reset.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:32] "GET /win.mp3 HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:08:51] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:51] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:51] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:08:54] code 404, message File not found
+::1 - - [18/Oct/2025 14:08:54] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:11] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:11] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:11] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:11] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:11] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:11] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:45] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:45] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:45] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:45] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:45] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:45] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:46] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:46] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:47] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:47] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:47] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:48] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:48] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:49] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:49] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:49] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:49] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:49] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:49] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:50] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:50] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:50] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:50] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:50] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:50] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:09:50] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:09:50] code 404, message File not found
+::1 - - [18/Oct/2025 14:09:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:11:30] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:30] code 404, message File not found
+::1 - - [18/Oct/2025 14:11:30] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:11:30] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:30] "GET /game.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:11:30] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:30] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:33] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:33] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:36] code 404, message File not found
+::1 - - [18/Oct/2025 14:11:36] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:11:38] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:38] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:38] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:42] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:42] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:11:44] code 404, message File not found
+::1 - - [18/Oct/2025 14:11:44] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:27:33] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /ai.js HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:27:33] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /place.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /win.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /new.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /reset.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:33] "GET /hint.mp3 HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:27:35] code 404, message File not found
+::1 - - [18/Oct/2025 14:27:35] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [18/Oct/2025 14:27:49] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:30:27] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:30:27] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:30:27] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:34:22] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:34:22] "GET /style.css HTTP/1.1" 200 -
+::1 - - [18/Oct/2025 14:34:22] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:34:22] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:34:22] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:34:28] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:35:12] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:35:12] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:35:34] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:02] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:02] "GET /style.css HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:02] "GET /game.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:02] "GET /ai.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:06] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:46] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:46] "GET /ui.js HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:52] "GET / HTTP/1.1" 304 -
+::1 - - [18/Oct/2025 14:38:52] "GET /style.css HTTP/1.1" 304 -

@@ -1,0 +1,436 @@
+:root {
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --container-bg-color: #fff;
+    --container-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    --title-color: #000;
+    --status-color: #555;
+    --score-color: #777;
+    --board-bg-color: #f0e5d8;
+    --board-border-color: #e0d5c8;
+    --line-color: #c8bbae;
+    --piece-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    --black-piece-bg: #333;
+    --white-piece-bg: #fff;
+    --white-piece-border: #ddd;
+    --button-bg-color: #007aff;
+    --button-hover-bg-color: #005ecb;
+    --button-text-color: #fff;
+    --cancel-button-bg-color: #eee;
+    --cancel-button-text-color: #333;
+    --hint-border-color: #007aff;
+}
+
+.dark-theme {
+    --bg-color: #1c1c1e;
+    --text-color: #f2f2f7;
+    --container-bg-color: #2c2c2e;
+    --container-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    --title-color: #fff;
+    --status-color: #a9a9b3;
+    --score-color: #8e8e93;
+    --board-bg-color: #3a3a3c;
+    --board-border-color: #4a4a4c;
+    --line-color: #5a5a5c;
+    --piece-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    --black-piece-bg: #1c1c1e;
+    --white-piece-bg: #f2f2f7;
+    --white-piece-border: #5a5a5c;
+    --button-bg-color: #0a84ff;
+    --button-hover-bg-color: #0060df;
+    --button-text-color: #fff;
+    --cancel-button-bg-color: #48484a;
+    --cancel-button-text-color: #f2f2f7;
+    --hint-border-color: #0a84ff;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--bg-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#game-container {
+    background: var(--container-bg-color);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--container-shadow);
+    max-width: 960px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative; /* 用于容器内绝对定位 */
+}
+
+/* 容器右上角工具栏 */
+.container-tools {
+    position: absolute;
+    top: -14px;
+    right: -8px;
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--container-bg-color);
+    border: 1px solid var(--board-border-color);
+    border-radius: 10px;
+    box-shadow: var(--container-shadow);
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+    padding: 0;
+}
+
+h1 {
+    color: var(--title-color);
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#status-area {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: var(--status-color);
+    min-height: 1.5em;
+    text-align: left;
+}
+
+#score-area {
+    margin-bottom: 30px;
+    font-size: 1em;
+    color: var(--score-color);
+    text-align: left;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+    width: 90vw;
+    height: 90vw;
+    max-width: 570px;
+    max-height: 570px;
+    background-color: var(--board-bg-color);
+    border: 1px solid var(--board-border-color);
+    position: relative;
+}
+
+/* 棋盘右上角工具栏 */
+.board-tools {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--container-bg-color);
+    border: 1px solid var(--board-border-color);
+    border-radius: 10px;
+    box-shadow: var(--container-shadow);
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+    padding: 0;
+}
+
+/* 禁用棋盘时仅禁用格子点击，不影响右上角图标 */
+.board-disabled .intersection {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.icon-btn:hover {
+    transform: translateY(-1px);
+}
+
+.icon {
+    width: 22px;
+    height: 22px;
+    color: var(--text-color);
+}
+
+.intersection {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+.intersection::before, .intersection::after {
+    content: '';
+    position: absolute;
+    background-color: var(--line-color);
+}
+
+.intersection::before {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.intersection::after {
+    width: 1px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.piece {
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--piece-shadow);
+    pointer-events: none; /* Make pieces unclickable */
+}
+
+.black {
+    background: var(--black-piece-bg);
+}
+
+.white {
+    background: var(--white-piece-bg);
+    border: 1px solid var(--white-piece-border);
+}
+
+#main-game-area {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+}
+
+#sidebar {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* 让右上角图标锚定在侧栏内 */
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+#controls button {
+    padding: 12px 20px;
+    font-size: 0.9em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--button-text-color);
+    background-color: var(--button-bg-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#controls button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+.hint {
+    border: 2px solid var(--hint-border-color);
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+}
+
+#win-modal, #confirm-reset-modal {
+    background: var(--container-bg-color);
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#win-message, #confirm-reset-message {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+#play-again-button, #confirm-reset-button {
+    padding: 10px 25px;
+    font-size: 1em;
+    color: var(--button-text-color);
+    background-color: var(--button-bg-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#win-modal-buttons, #confirm-reset-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#cancel-win-button, #cancel-reset-button {
+    padding: 10px 25px;
+    font-size: 1em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--cancel-button-text-color);
+    background-color: var(--cancel-button-bg-color);
+}
+
+@keyframes new-piece-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+.new-piece {
+    animation: new-piece-animation 0.4s ease-in-out;
+}
+
+@keyframes winning-piece-animation {
+    0%, 100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+}
+
+.winning-piece {
+    animation: winning-piece-animation 1s infinite;
+}
+
+@media (max-width: 850px) {
+    #main-game-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #sidebar {
+        width: 100%;
+        margin-top: 20px;
+        position: relative; /* 保持移动端也正确定位 */
+    }
+
+    h1, #status-area, #score-area {
+        text-align: center;
+    }
+
+    #controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* 移动端让右上角图标靠右上，但不遮挡标题 */
+    .container-tools {
+        top: -6px;
+        right: 8px;
+        gap: 8px;
+    }
+}
+
+/* 移动端适配优化 */
+@media (max-width: 480px) {
+    #game-container {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    /* 容器右上角工具栏在小屏更贴边并增大触控面积 */
+    .container-tools {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    .icon-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 棋盘略扩大占屏比例，保持方形 */
+    #board {
+        width: 92vw;
+        height: 92vw;
+        max-width: 520px;
+        max-height: 520px;
+    }
+
+    h1 {
+        font-size: 2.1em;
+        text-align: center;
+    }
+
+    #status-area, #score-area {
+        text-align: center;
+    }
+
+    #controls {
+        gap: 12px;
+    }
+
+    #controls button {
+        padding: 10px 16px;
+        font-size: 0.95em;
+    }
+}
+
+/* 适配 iOS 安全区域（刘海等），仅在支持且窄屏时生效 */
+@supports (top: env(safe-area-inset-top)) {
+    @media (max-width: 850px) {
+        .container-tools {
+            top: calc(env(safe-area-inset-top) + 8px);
+            right: calc(env(safe-area-inset-right) + 8px);
+        }
+    }
+}
