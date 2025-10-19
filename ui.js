@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     const boardElement = document.getElementById('board');
+    const boardCanvas = document.getElementById('board-canvas');
+    const stonesCanvas = document.getElementById('stones-canvas');
+    const gctx = boardCanvas.getContext('2d');
+    const sctx = stonesCanvas.getContext('2d');
     const statusElement = document.getElementById('status-area');
     const statusElementMobile = document.getElementById('status-area-mobile');
     const scoreElement = document.getElementById('score-area');
@@ -77,24 +81,111 @@ document.addEventListener('DOMContentLoaded', () => {
     let tickingPlayer = 'black';
 
 
-    const renderBoard = () => {
-        boardElement.innerHTML = '';
+    // Canvas 渲染参数
+    const geom = { dpr: 1, w: 0, h: 0, cell: 0, pad: 0 };
+
+    const setCanvasSize = () => {
+        const rect = boardElement.getBoundingClientRect();
+        const size = Math.min(rect.width, rect.height);
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        [boardCanvas, stonesCanvas].forEach(c => {
+            c.width = Math.round(size * dpr);
+            c.height = Math.round(size * dpr);
+            c.style.width = `${size}px`;
+            c.style.height = `${size}px`;
+        });
+        gctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        geom.dpr = dpr; geom.w = size; geom.h = size;
+        const spaces = BOARD_SIZE - 1;
+        geom.cell = size / (spaces + 2);
+        geom.pad = geom.cell; // 边缘留整格，所有格子等宽
+    };
+
+    const drawGrid = () => {
+        const { w, h, cell, pad } = geom;
+        gctx.clearRect(0, 0, w, h);
+        // 背景由 CSS 提供，这里只画网格
+        gctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color') || '#bbb';
+        gctx.lineWidth = 1;
+        gctx.beginPath();
+        for (let i = 0; i < BOARD_SIZE; i++) {
+            const x = pad + i * cell;
+            gctx.moveTo(x, pad);
+            gctx.lineTo(x, h - pad);
+            const y = pad + i * cell;
+            gctx.moveTo(pad, y);
+            gctx.lineTo(w - pad, y);
+        }
+        gctx.stroke();
+        // 星位
+        const starsIdx = [3, 7, 11];
+        const starR = Math.max(2, Math.min(4, cell * 0.08));
+        gctx.fillStyle = '#666';
+        const points = [
+            { r: 3, c: 3 }, { r: 3, c: 11 }, { r: 7, c: 7 }, { r: 11, c: 3 }, { r: 11, c: 11 }
+        ];
+        points.forEach(p => {
+            const x = pad + p.c * cell; const y = pad + p.r * cell;
+            gctx.beginPath();
+            gctx.arc(x, y, starR, 0, Math.PI * 2);
+            gctx.fill();
+        });
+        // 边框
+        gctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--board-border-color') || '#ccc';
+        gctx.strokeRect(0.5, 0.5, w - 1, h - 1);
+    };
+
+    // 当前高亮、提示
+    let lastMove = null; // {row,col}
+    let hintMove = null; // {row,col}
+
+    const drawStones = () => {
+        const { w, h, cell, pad } = geom;
+        sctx.clearRect(0, 0, w, h);
         const board = getBoard();
-        for (let row = 0; row < BOARD_SIZE; row++) {
-            for (let col = 0; col < BOARD_SIZE; col++) {
-                const intersection = document.createElement('div');
-                intersection.classList.add('intersection');
-                intersection.dataset.row = row;
-                intersection.dataset.col = col;
-                intersection.setAttribute('role', 'button');
-                intersection.setAttribute('tabindex', '0');
-                if (board[row][col]) {
-                    const pieceElement = document.createElement('div');
-                    pieceElement.classList.add('piece', board[row][col]);
-                    intersection.appendChild(pieceElement);
+        for (let r = 0; r < BOARD_SIZE; r++) {
+            for (let c = 0; c < BOARD_SIZE; c++) {
+                const color = board[r][c];
+                if (!color) continue;
+                const x = pad + c * cell, y = pad + r * cell;
+                const radius = cell * 0.42;
+                sctx.beginPath();
+                sctx.arc(x, y, radius, 0, Math.PI * 2);
+                if (color === 'black') {
+                    sctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--black-piece-bg') || '#333';
+                    sctx.shadowColor = 'rgba(0,0,0,0.25)';
+                    sctx.shadowBlur = 4;
+                    sctx.fill();
+                } else {
+                    sctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-bg') || '#fff';
+                    sctx.fill();
+                    sctx.lineWidth = 1;
+                    sctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-border') || '#ddd';
+                    sctx.stroke();
                 }
-                boardElement.appendChild(intersection);
+                sctx.shadowBlur = 0;
             }
+        }
+        // 最后一步高亮
+        if (lastMove) {
+            const x = pad + lastMove.col * cell, y = pad + lastMove.row * cell;
+            sctx.beginPath();
+            sctx.arc(x, y, cell * 0.5, 0, Math.PI * 2);
+            sctx.lineWidth = 2;
+            sctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--hint-border-color') || '#0a84ff';
+            sctx.stroke();
+        }
+        // 提示高亮
+        if (hintMove) {
+            const x = pad + hintMove.col * cell, y = pad + hintMove.row * cell;
+            sctx.beginPath();
+            sctx.arc(x, y, cell * 0.5, 0, Math.PI * 2);
+            sctx.setLineDash([4, 4]);
+            sctx.lineWidth = 2;
+            sctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--hint-border-color') || '#0a84ff';
+            sctx.stroke();
+            sctx.setLineDash([]);
         }
     };
 
@@ -111,12 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const winningLine = placePiece(row, col, currentPlayer);
         
         playSound(placeSound);
-        renderBoard();
-
-        const newPieceElement = boardElement.querySelector(`[data-row='${row}'][data-col='${col}']`).firstChild;
-        const prevHighlighted = boardElement.querySelector('.piece.new-piece');
-        if (prevHighlighted) prevHighlighted.classList.remove('new-piece');
-        if (newPieceElement) newPieceElement.classList.add('new-piece');
+        lastMove = { row, col };
+        drawStones();
 
         if (winningLine) {
             handleWin(currentPlayer, winningLine);
@@ -317,28 +404,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (move) {
-            const hintElement = boardElement.querySelector(`[data-row='${move.row}'][data-col='${move.col}']`);
-            if (hintElement) {
-                hintElement.classList.add('hint');
-                setTimeout(() => {
-                    hintElement.classList.remove('hint');
-                }, 600);
-            }
+            hintMove = { row: move.row, col: move.col };
+            drawStones();
+            setTimeout(() => { hintMove = null; drawStones(); }, 600);
         }
     };
 
-    boardElement.addEventListener('click', (event) => {
-        // 禁用 AI 回合点击（白方为AI）
-        if (aiMode && getCurrentPlayer() === 'white') {
-            return;
-        }
-        const target = event.target;
-        if (target.classList.contains('intersection')) {
-            const row = parseInt(target.dataset.row, 10);
-            const col = parseInt(target.dataset.col, 10);
-            handlePlayerMove(row, col);
-        }
-    });
+    const pickCellFromEvent = (evt) => {
+        const rect = stonesCanvas.getBoundingClientRect();
+        const x = (evt.clientX || (evt.touches && evt.touches[0].clientX)) - rect.left;
+        const y = (evt.clientY || (evt.touches && evt.touches[0].clientY)) - rect.top;
+        const { cell, pad } = geom;
+        const col = Math.round((x - pad) / cell);
+        const row = Math.round((y - pad) / cell);
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) return null;
+        return { row, col };
+    };
+
+    const onCanvasClick = (event) => {
+        if (aiMode && getCurrentPlayer() === 'white') return;
+        const cell = pickCellFromEvent(event);
+        if (cell) handlePlayerMove(cell.row, cell.col);
+    };
+    stonesCanvas.addEventListener('click', onCanvasClick);
+    stonesCanvas.addEventListener('touchstart', (e) => { onCanvasClick(e); }, { passive: true });
 
     // 键盘可访问性：回车或空格在焦点格子落子
     boardElement.addEventListener('keydown', (event) => {
@@ -472,8 +561,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initial setup
-    renderBoard();
+    setCanvasSize();
+    drawGrid();
+    drawStones();
     updateStatus();
     updateScoreDisplay();
     updateTimerDisplays();
+
+    // Resize 监听
+    window.addEventListener('resize', () => {
+        setCanvasSize();
+        drawGrid();
+        drawStones();
+    });
 });
