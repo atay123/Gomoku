@@ -515,6 +515,33 @@ document.addEventListener('DOMContentLoaded', () => {
         hideModals();
     });
 
+    // --- Audio unlock for mobile ---
+    let audioUnlocked = false;
+    const allAudios = [];
+    const registerAudios = () => {
+        [placeSound, winSound, resetSound, hintSound, resetScoreSound, timerSound].forEach(a => { if (a && !allAudios.includes(a)) allAudios.push(a); });
+    };
+    const unlockAudio = () => {
+        if (audioUnlocked) return;
+        registerAudios();
+        try {
+            allAudios.forEach(a => {
+                try {
+                    a.muted = true;
+                    const p = a.play();
+                    if (p && p.catch) p.catch(() => {});
+                    a.pause();
+                    a.currentTime = 0;
+                    a.muted = false;
+                } catch (e) {}
+            });
+            audioUnlocked = true;
+        } catch (e) {}
+    };
+    ['pointerdown','touchstart','keydown','click'].forEach(ev => {
+        window.addEventListener(ev, unlockAudio, { once: true, capture: true });
+    });
+
     // --- Theme and Mute Logic ---
     let isMuted = false;
 
@@ -559,6 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const playSound = (sound) => {
         if (isMuted) return;
+        if (!audioUnlocked) unlockAudio();
         sound.currentTime = 0;
         sound.play().catch(error => console.error("Audio playback failed:", error));
     };
