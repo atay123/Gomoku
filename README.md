@@ -24,12 +24,18 @@
 - 当前项目：`BOARD_SIZE = 15`，并在样式中使用 15×15 网格。
 
 ## 如何开始
-1. 在项目根目录运行：
-   ```
+1. 在 `Gomoku` 目录运行本地静态服务：
+   ```bash
+   cd Gomoku
    python3 -m http.server 8000
    ```
    然后访问 `http://localhost:8000/`。
 2. 点击棋盘交叉点即可落子；点击“人机对战”按钮可切换模式；点击“提示”获取智能推荐落点的高亮。
+
+## 性能与 AI（Web Worker）
+- AI 搜索（alpha-beta + 启发式）在后台线程执行：`ui.js` 将当前棋盘和执子方传给 `ai.worker.js`，收到最佳落点后再在主线程落子和渲染。
+- 优点：UI 操作不会因 AI 思考卡顿；可扩展更深层搜索而不影响交互。
+- 如需调参，可在 `ai.js` 调整候选数量、搜索深度与评分策略。
 
 ## 文件说明
 - `index.html`：页面结构与按钮/音频资源。
@@ -37,11 +43,12 @@
 - `game.js`：核心规则与状态管理：
   - 棋盘与当前玩家、胜负判断、分数统计。
   - `placePiece()`、`togglePlayer()`、`resetGame()` 等基础逻辑。
-  - `getPossibleMoves(b = board)` 生成候选落子（支持传入模拟棋盘）。
-- `ai.js`：AI 与提示的核心算法：
-  - `findBestMoveFor(color)`：为任意颜色计算最佳落点（用于“提示”）。
-  - `findBestMove()`：AI（白方）在其回合计算最佳落点。
-  - 采用启发式评分 + 浅层 alpha-beta 搜索，优先即胜与必堵。
+-  - `getPossibleMoves(b = board)` 生成候选落子（内部委托 `utils.js`）。
+- `ai.js`：AI 核心算法（纯函数），提供：
+  - `findBestMoveOnBoard(board, color)`：对给定棋盘计算最佳落点（Worker 使用）。
+  - 采用启发式排序 + 浅层 alpha-beta 搜索 + 简单置换表缓存。
+- `ai.worker.js`：运行在 Web Worker 中，调用 `ai.js` 计算并通过 `postMessage` 返回结果。
+- `utils.js`：公共常量与工具（`BOARD_SIZE`、方向、`inBounds`、`getPossibleMovesFor(board)`）。
 - `ui.js`：渲染与交互逻辑：
   - 棋盘绘制、点击落子、AI 回合调度、提示高亮。
   - 分数显示、胜利弹窗、主题切换与静音偏好。

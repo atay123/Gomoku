@@ -1,4 +1,5 @@
-export const BOARD_SIZE = 15;
+import { BOARD_SIZE, LINE_DIRS, getPossibleMovesFor } from './utils.js';
+
 export let board = Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill(null));
 export let currentPlayer = 'black'; // black starts
 export let gameOver = false;
@@ -49,14 +50,7 @@ export const setLastPieceElement = (element) => {
 export const getLastPieceElement = () => lastPieceElement;
 
 const checkWin = (row, col, player) => {
-    const directions = [
-        { r: 0, c: 1 },  // Horizontal
-        { r: 1, c: 0 },  // Vertical
-        { r: 1, c: 1 },  // Diagonal \
-        { r: 1, c: -1 }  // Diagonal /
-    ];
-
-    for (const dir of directions) {
+    for (const dir of LINE_DIRS) {
         const line = [{ row, col }];
         let count = 1;
 
@@ -92,35 +86,5 @@ const checkWin = (row, col, player) => {
 };
 
 export const getPossibleMoves = (b = board) => {
-    const moves = [];
-    const hasPiece = (r, c) => r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE && b[r][c];
-
-    // 棋盘为空时，从中心开局
-    if (b.every(row => row.every(cell => !cell))) {
-        return [{ row: Math.floor(BOARD_SIZE / 2), col: Math.floor(BOARD_SIZE / 2) }];
-    }
-
-    for (let r = 0; r < BOARD_SIZE; r++) {
-        for (let c = 0; c < BOARD_SIZE; c++) {
-            if (b[r][c]) continue; // Skip occupied cells
-
-            // 仅允许围绕已有棋子的一圈位置作为候选，缩小搜索空间
-            if (hasPiece(r - 1, c - 1) || hasPiece(r - 1, c) || hasPiece(r - 1, c + 1) ||
-                hasPiece(r, c - 1)     || hasPiece(r, c + 1)     ||
-                hasPiece(r + 1, c - 1) || hasPiece(r + 1, c) || hasPiece(r + 1, c + 1)) {
-                moves.push({ row: r, col: c });
-            }
-        }
-    }
-
-    // 保险：如果没有候选（极少见），退回到所有空位
-    if (moves.length === 0) {
-        for (let r = 0; r < BOARD_SIZE; r++) {
-            for (let c = 0; c < BOARD_SIZE; c++) {
-                if (!b[r][c]) moves.push({ row: r, col: c });
-            }
-        }
-    }
-
-    return moves;
+    return getPossibleMovesFor(b);
 }

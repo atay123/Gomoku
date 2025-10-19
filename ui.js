@@ -1,18 +1,32 @@
 import { 
     getBoard, getCurrentPlayer, isGameOver, placePiece, togglePlayer, 
     resetGame as resetGameState, updateScore, resetScore as resetScoreState, getScores, 
-    setLastPieceElement, getLastPieceElement, BOARD_SIZE, getPossibleMoves
+    getPossibleMoves
 } from './game.js';
-import { findBestMove, findBestMoveFor } from './ai.js?v=1';
+import { BOARD_SIZE } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 移动端兜底：阻止触控拖拽导致页面下拉/回弹
     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-    if (isMobile) {
-        document.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-        }, { passive: false });
-    }
+    // 初始化 AI Worker
+    let reqSeq = 0;
+    const aiWorker = new Worker(new URL('./ai.worker.js', import.meta.url), { type: 'module' });
+    const pending = new Map();
+    aiWorker.onmessage = (e) => {
+        const { reqId, move, error } = e.data || {};
+        const resolver = pending.get(reqId);
+        if (!resolver) return;
+        pending.delete(reqId);
+        if (error) resolver.reject(new Error(error));
+        else resolver.resolve(move);
+    };
+
+    const computeBestMoveAsync = (board, player) => {
+        return new Promise((resolve, reject) => {
+            const reqId = ++reqSeq;
+            pending.set(reqId, { resolve, reject });
+            aiWorker.postMessage({ board, player, reqId });
+        });
+    };
     const boardElement = document.getElementById('board');
     const statusElement = document.getElementById('status-area');
     const scoreElement = document.getElementById('score-area');
@@ -50,6 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 intersection.classList.add('intersection');
                 intersection.dataset.row = row;
                 intersection.dataset.col = col;
+                intersection.setAttribute('role', 'button');
+                intersection.setAttribute('tabindex', '0');
                 if (board[row][col]) {
                     const pieceElement = document.createElement('div');
                     pieceElement.classList.add('piece', board[row][col]);
@@ -76,13 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBoard();
 
         const newPieceElement = boardElement.querySelector(`[data-row='${row}'][data-col='${col}']`).firstChild;
-        if (getLastPieceElement()) {
-            getLastPieceElement().classList.remove('new-piece');
-        }
-        if (newPieceElement) {
-            newPieceElement.classList.add('new-piece');
-            setLastPieceElement(newPieceElement);
-        }
+        const prevHighlighted = boardElement.querySelector('.piece.new-piece');
+        if (prevHighlighted) prevHighlighted.classList.remove('new-piece');
+        if (newPieceElement) newPieceElement.classList.add('new-piece');
 
         if (winningLine) {
             handleWin(currentPlayer, winningLine);
@@ -95,10 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const handleAIMove = () => {
-        const bestMove = findBestMove();
-        if (bestMove) {
-            handlePlayerMove(bestMove.row, bestMove.col);
+    const handleAIMove = async () => {
+        try {
+            const bestMove = await computeBestMoveAsync(getBoard(), 'white');
+            if (bestMove) handlePlayerMove(bestMove.row, bestMove.col);
+        } catch (e) {
+            // 兜底：忽略错误，由玩家继续
+            console.error('AI worker error:', e);
         }
     };
 
@@ -174,14 +189,16 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.style.display = 'none';
     };
 
-    const showHint = () => {
+    const showHint = async () => {
         if (isGameOver()) return;
         playSound(hintSound);
 
         const player = getCurrentPlayer();
-        // 使用AI为当前轮次计算最佳落点，仅高亮不修改棋盘
-        const bestMove = findBestMoveFor(player);
-        let move = bestMove;
+        // 使用 Worker 计算最佳落点，仅高亮不修改棋盘
+        let move = null;
+        try {
+            move = await computeBestMoveAsync(getBoard(), player);
+        } catch {}
 
         // 兜底：如果AI未返回结果，回退到可落子列表的第一个
         if (!move) {
@@ -210,6 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = parseInt(target.dataset.row, 10);
             const col = parseInt(target.dataset.col, 10);
             handlePlayerMove(row, col);
+        }
+    });
+
+    // 键盘可访问性：回车或空格在焦点格子落子
+    boardElement.addEventListener('keydown', (event) => {
+        if (aiMode && getCurrentPlayer() === 'white') return;
+        const target = event.target;
+        if (!target.classList || !target.classList.contains('intersection')) return;
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+            const row = parseInt(target.dataset.row, 10);
+            const col = parseInt(target.dataset.col, 10);
+            handlePlayerMove(row, col);
+            event.preventDefault();
         }
     });
 
@@ -314,6 +344,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     loadPreferences();
+
+    // 移动端仅限制棋盘区域的滚动/回弹
+    if (isMobile) {
+        boardElement.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        boardElement.style.touchAction = 'none';
+    }
 
     // Initial setup
     renderBoard();

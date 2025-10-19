@@ -1,16 +1,9 @@
-import { getBoard, getPossibleMoves, BOARD_SIZE } from './game.js';
+import { BOARD_SIZE, DELTA_DIRS as directions, inBounds, getPossibleMovesFor } from './utils.js';
 
 const deepCopyBoard = (board) => board.map(arr => arr.slice());
 const opponentOf = (color) => (color === 'white' ? 'black' : 'white');
 
-const directions = [
-    { dr: 0, dc: 1 },
-    { dr: 1, dc: 0 },
-    { dr: 1, dc: 1 },
-    { dr: 1, dc: -1 }
-];
-
-const inBounds = (r, c) => r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE;
+// 方向与边界检查由 utils 提供
 
 const countDir = (b, row, col, dr, dc, color) => {
     let r = row + dr, c = col + dc, count = 0;
@@ -110,6 +103,32 @@ const scoreSegment = (segment, player) => {
 
     return playerCount; // 其他情况给基础分
 };
+// 简单置换表缓存（按局面+深度+轮次）
+const TT = new Map();
+const boardKey = (board, depth, isMax) => {
+    let s = depth + (isMax ? 'M' : 'm') + ':';
+    for (let r = 0; r < board.length; r++) {
+        for (let c = 0; c < board[r].length; c++) {
+            const v = board[r][c];
+            s += v ? (v === 'black' ? 'b' : 'w') : '_';
+        }
+        s += '|';
+    }
+    return s;
+};
+
+const orderMoves = (board, moves, maxColor, isMaximizing) => {
+    const me = isMaximizing ? maxColor : opponentOf(maxColor);
+    const opp = opponentOf(me);
+    return moves
+        .map(m => {
+            const attack = evaluateMove(board, m.row, m.col, me);
+            const defend = evaluateMove(board, m.row, m.col, opp) * 1.1;
+            return { m, s: attack + defend };
+        })
+        .sort((a, b) => b.s - a.s)
+        .map(x => x.m);
+};
 
 const alphaBeta = (board, depth, alpha, beta, isMaximizing, maxColor) => {
     const evalScore = evaluateBoardFor(board, maxColor);
@@ -117,35 +136,42 @@ const alphaBeta = (board, depth, alpha, beta, isMaximizing, maxColor) => {
         return evalScore;
     }
 
-    const moves = getPossibleMoves(board);
+    const key = boardKey(board, depth, isMaximizing);
+    const hit = TT.get(key);
+    if (hit !== undefined) return hit;
+
+    const moves = getPossibleMovesFor(board);
+    const ordered = orderMoves(board, moves, maxColor, isMaximizing);
+    const limited = ordered.slice(0, 12); // 限制前 12 个候选
 
     if (isMaximizing) {
         let best = -Infinity;
-        for (const m of moves) {
+        for (const m of limited) {
             const newBoard = deepCopyBoard(board);
             newBoard[m.row][m.col] = maxColor;
             best = Math.max(best, alphaBeta(newBoard, depth - 1, alpha, beta, false, maxColor));
             alpha = Math.max(alpha, best);
             if (beta <= alpha) break;
         }
+        TT.set(key, best);
         return best;
     } else {
         let best = Infinity;
         const opp = opponentOf(maxColor);
-        for (const m of moves) {
+        for (const m of limited) {
             const newBoard = deepCopyBoard(board);
             newBoard[m.row][m.col] = opp;
             best = Math.min(best, alphaBeta(newBoard, depth - 1, alpha, beta, true, maxColor));
             beta = Math.min(beta, best);
             if (beta <= alpha) break;
         }
+        TT.set(key, best);
         return best;
     }
 };
 
-export const findBestMoveFor = (color) => {
-    const board = getBoard();
-    const moves = getPossibleMoves(board);
+export const findBestMoveOnBoard = (board, color) => {
+    const moves = getPossibleMovesFor(board);
     if (!moves || moves.length === 0) return null;
 
     // 1) 立即取胜
@@ -174,6 +200,4 @@ export const findBestMoveFor = (color) => {
     }
     return bestMove;
 };
-
-// 保持原有 API：AI（白方）使用
-export const findBestMove = () => findBestMoveFor('white');
+// Worker/主线程均可复用：返回给定棋盘与执子方的最佳落点

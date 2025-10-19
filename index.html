@@ -32,7 +32,7 @@
                 </div>
 
                 <h1>五子棋</h1>
-                <div id="status-area">轮到黑子</div>
+                <div id="status-area" aria-live="polite">轮到黑子</div>
                 <div id="score-area">黑子: 0 | 白子: 0</div>
                 <div id="controls">
                     <button id="reset-button">新游戏</button>
@@ -61,7 +61,6 @@
         <source src="reset.mp3" type="audio/mpeg">
     </audio>
     <script src="game.js" type="module"></script>
-    <script src="ai.js" type="module"></script>
     <script src="ui.js" type="module"></script>
 
     <div id="modal-overlay">

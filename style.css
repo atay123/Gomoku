@@ -76,6 +76,7 @@ body {
     z-index: 20;
 }
 
+/* 按钮通用样式（合并重复定义） */
 .icon-btn {
     width: 36px;
     height: 36px;
@@ -137,20 +138,7 @@ h1 {
     z-index: 10;
 }
 
-.icon-btn {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--container-bg-color);
-    border: 1px solid var(--board-border-color);
-    border-radius: 10px;
-    box-shadow: var(--container-shadow);
-    cursor: pointer;
-    transition: transform 0.15s ease, background-color 0.2s ease;
-    padding: 0;
-}
+/* 删除重复的 .icon-btn 定义，统一见上 */
 
 /* 禁用棋盘时仅禁用格子点击，不影响右上角图标 */
 .board-disabled .intersection {
@@ -344,13 +332,8 @@ h1 {
 }
 
 @media (max-width: 850px) {
-    /* 移动端整体禁止页面下拉/滚动 */
-    html, body {
-        height: 100%;
-        overflow: hidden;              /* 禁止产生滚动条 */
-        overscroll-behavior: none;     /* 禁止回弹/下拉刷新（支持的浏览器） */
-        touch-action: none;            /* 禁止触控拖拽产生滚动 */
-    }
+    /* 限制棋盘区域触控手势，避免误触页面滚动 */
+    #board { touch-action: none; }
 
     #game-container {
         height: 100vh;                 /* 填满屏幕高度 */
