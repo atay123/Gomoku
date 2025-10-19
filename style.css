@@ -263,6 +263,7 @@ h1 {
     display: none; /* Hidden by default */
     justify-content: center;
     align-items: center;
+    z-index: 10000; /* 覆盖顶部吸顶栏与其他元素 */
 }
 
 #win-modal, #confirm-reset-modal {
