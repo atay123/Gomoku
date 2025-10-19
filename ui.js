@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 当前高亮、提示
     let lastMove = null; // {row,col}
     let hintMove = null; // {row,col}
+    let winningLinePositions = null; // Array<{row,col}>
 
     const drawStones = () => {
         const { w, h, cell, pad } = geom;
@@ -150,21 +151,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!color) continue;
                 const x = pad + c * cell, y = pad + r * cell;
                 const radius = cell * 0.42;
+
+                // 轻微地面的阴影
+                sctx.save();
+                sctx.globalAlpha = 0.18;
+                sctx.fillStyle = '#000';
                 sctx.beginPath();
-                sctx.arc(x, y, radius, 0, Math.PI * 2);
+                sctx.ellipse(x, y + radius * 0.12, radius * 0.84, radius * 0.62, 0, 0, Math.PI * 2);
+                sctx.fill();
+                sctx.restore();
+
+                // 棋子主体的径向渐变，高光中心稍微偏左上
+                const cx = x - radius * 0.35;
+                const cy = y - radius * 0.35;
+                const grad = sctx.createRadialGradient(cx, cy, radius * 0.1, x, y, radius);
+
                 if (color === 'black') {
-                    sctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--black-piece-bg') || '#333';
-                    sctx.shadowColor = 'rgba(0,0,0,0.25)';
-                    sctx.shadowBlur = 4;
+                    grad.addColorStop(0, '#6b6b6b');
+                    grad.addColorStop(0.6, '#2e2e2e');
+                    grad.addColorStop(1, '#0f0f0f');
+                    sctx.fillStyle = grad;
+                    sctx.beginPath();
+                    sctx.arc(x, y, radius, 0, Math.PI * 2);
                     sctx.fill();
                 } else {
-                    sctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-bg') || '#fff';
+                    const whiteBase = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-bg') || '#ffffff';
+                    const border = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-border') || '#dcdcdc';
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.6, whiteBase.trim() || '#f7f7f7');
+                    grad.addColorStop(1, '#d6d6d6');
+                    sctx.fillStyle = grad;
+                    sctx.beginPath();
+                    sctx.arc(x, y, radius, 0, Math.PI * 2);
                     sctx.fill();
                     sctx.lineWidth = 1;
-                    sctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--white-piece-border') || '#ddd';
+                    sctx.strokeStyle = border;
                     sctx.stroke();
                 }
-                sctx.shadowBlur = 0;
+
+                // 轻微的镜面高光
+                sctx.save();
+                sctx.globalAlpha = 0.25;
+                const glow = sctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.6);
+                glow.addColorStop(0, 'rgba(255,255,255,0.9)');
+                glow.addColorStop(1, 'rgba(255,255,255,0)');
+                sctx.fillStyle = glow;
+                sctx.beginPath();
+                sctx.arc(x, y, radius, 0, Math.PI * 2);
+                sctx.fill();
+                sctx.restore();
             }
         }
         // 最后一步高亮
@@ -186,6 +221,17 @@ document.addEventListener('DOMContentLoaded', () => {
             sctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--hint-border-color') || '#0a84ff';
             sctx.stroke();
             sctx.setLineDash([]);
+        }
+        // 胜利连线高亮
+        if (winningLinePositions && winningLinePositions.length) {
+            sctx.lineWidth = 3;
+            sctx.strokeStyle = '#3ddc97';
+            winningLinePositions.forEach(p => {
+                const x = pad + p.col * cell, y = pad + p.row * cell;
+                sctx.beginPath();
+                sctx.arc(x, y, cell * 0.55, 0, Math.PI * 2);
+                sctx.stroke();
+            });
         }
     };
 
@@ -299,14 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScore(player);
         updateScoreDisplay();
         stopTimer();
-        if (winningLine) {
-            for (const piece of winningLine) {
-                const pieceElement = boardElement.querySelector(`[data-row='${piece.row}'][data-col='${piece.col}']`).firstChild;
-                if (pieceElement) {
-                    pieceElement.classList.add('winning-piece');
-                }
-            }
-        }
+        winningLinePositions = winningLine || null;
+        drawStones();
 
         setTimeout(() => {
             showWinModal(player);
@@ -356,7 +396,11 @@ document.addEventListener('DOMContentLoaded', () => {
         playSound(resetSound);
         hideModals();
         resetGameState();
-        renderBoard();
+        lastMove = null;
+        hintMove = null;
+        winningLinePositions = null;
+        drawGrid();
+        drawStones();
         updateStatus();
         timeBlack = INITIAL_SECONDS;
         timeWhite = INITIAL_SECONDS;

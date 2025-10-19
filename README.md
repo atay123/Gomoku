@@ -1,62 +1,45 @@
 # 五子棋 (Gomoku)
 
-这是一个基于 Web 的五子棋游戏，界面简洁、交互友好，支持双人对战与人机对战，内置智能提示与音效反馈。
+基于 Web 的五子棋，支持双人/人机对战，移动端适配良好。当前版本采用双 Canvas 渲染并将 AI 放入 Web Worker，保证更高的帧率与交互流畅度。
 
-<img width="949" height="726" alt="1" src="https://github.com/user-attachments/assets/801bbe65-cc6d-4005-bb75-8f38b2bbfe8f" />
+## 主要特性
+- 双 Canvas 渲染：
+  - `board-canvas` 绘制棋盘线与星位（等宽网格，边缘与内部格距一致，自适应高分屏）。
+  - `stones-canvas` 绘制棋子、提示与最新落子高亮（径向渐变与柔和阴影）。
+- 记分与计时：
+  - 轮到一方时重置并启动 40 秒倒计时；仅当前执子方显示收缩环与描边，切换时头像轻微放大提示。
+  - 最后 5 秒每秒提示音；超时自动判对方胜并计分。
+- 移动端 UI：顶部记分板居中；静音/切换主题按钮固定在网页右上角；触控无下拉/回弹。
+- AI（Web Worker）：启发式排序 + 浅层 alpha‑beta + 置换表缓存，后台线程计算最佳落点，主线程只负责渲染。
 
-<img width="984" height="717" alt="截屏2025-10-18 20 46 07" src="https://github.com/user-attachments/assets/2b07f84d-e503-4f32-80a8-4fcf898634bc" />
+## 启动
+```bash
+cd Gomoku
+python3 -m http.server 8000
+# 浏览器打开 http://localhost:8000
+```
 
-## 功能特性
-- 两种游戏模式：
-  - 双人对战（黑白轮流下）。
-  - 人机对战（AI 扮演白子）。
-- 智能提示：根据当前局势为“当前轮次的玩家”给出 AI 推荐的最佳落点，仅高亮不落子。
-- AI 增强：即胜优先、必堵优先、方向评估（活三/眠三、活四/冲四等）+ 浅层 alpha-beta 搜索，整体更不易被人类轻易击败。
-- 计分系统：自动记录并显示黑子与白子的胜利次数。
-- 动画与高亮：
-  - 最新落下的棋子短暂放大闪烁。
-  - 胜利后连成一线的五个棋子高亮闪烁。
-- 主题与静音：支持“切换主题”和“静音”，偏好会被保存。
-- 自定义弹窗：胜利提示与重置分数采用与整体 UI 风格统一的弹窗。
+操作：点击棋盘交叉点落子；“人机对战”切换模式；“提示”只高亮推荐点不落子。
 
-## 棋盘大小
-- 标准大小：15×15。
-- 当前项目：`BOARD_SIZE = 15`，并在样式中使用 15×15 网格。
+## UI 预览
+> 你可以将你的截图放到 `Gomoku/docs/` 目录，并按如下路径命名替换：
 
-## 如何开始
-1. 在 `Gomoku` 目录运行本地静态服务：
-   ```bash
-   cd Gomoku
-   python3 -m http.server 8000
-   ```
-   然后访问 `http://localhost:8000/`。
-2. 点击棋盘交叉点即可落子；点击“人机对战”按钮可切换模式；点击“提示”获取智能推荐落点的高亮。
+![桌面端](docs/screenshot-desktop.png)
+![移动端](docs/screenshot-mobile.png)
 
-## 性能与 AI（Web Worker）
-- AI 搜索（alpha-beta + 启发式）在后台线程执行：`ui.js` 将当前棋盘和执子方传给 `ai.worker.js`，收到最佳落点后再在主线程落子和渲染。
-- 优点：UI 操作不会因 AI 思考卡顿；可扩展更深层搜索而不影响交互。
-- 如需调参，可在 `ai.js` 调整候选数量、搜索深度与评分策略。
-
-## 文件说明
-- `index.html`：页面结构与按钮/音频资源。
-- `style.css`：布局、主题与动画样式。
-- `game.js`：核心规则与状态管理：
-  - 棋盘与当前玩家、胜负判断、分数统计。
-  - `placePiece()`、`togglePlayer()`、`resetGame()` 等基础逻辑。
--  - `getPossibleMoves(b = board)` 生成候选落子（内部委托 `utils.js`）。
-- `ai.js`：AI 核心算法（纯函数），提供：
-  - `findBestMoveOnBoard(board, color)`：对给定棋盘计算最佳落点（Worker 使用）。
-  - 采用启发式排序 + 浅层 alpha-beta 搜索 + 简单置换表缓存。
-- `ai.worker.js`：运行在 Web Worker 中，调用 `ai.js` 计算并通过 `postMessage` 返回结果。
+## 文件结构
+- `index.html`：页面骨架、音频资源、双 Canvas 容器。
+- `style.css`：布局与主题、记分板/计时环、动画与移动端适配。
 - `utils.js`：公共常量与工具（`BOARD_SIZE`、方向、`inBounds`、`getPossibleMovesFor(board)`）。
-- `ui.js`：渲染与交互逻辑：
-  - 棋盘绘制、点击落子、AI 回合调度、提示高亮。
-  - 分数显示、胜利弹窗、主题切换与静音偏好。
+- `game.js`：规则与状态管理（落子、胜负、得分、候选落点、强制结束）。
+- `ai.js`：AI 纯函数（`findBestMoveOnBoard(board, color)`）。
+- `ai.worker.js`：后台线程计算最佳落点。
+- `ui.js`：Canvas 绘制、事件处理、计时器/提示音、与 Worker 通信。
 
-## 自定义音效
-将您的 `.mp3` 文件替换项目根目录中的音效文件即可：
-- `place.mp3`（落子）
-- `win.mp3`（胜利）
-- `new.mp3`（新游戏）
-- `hint.mp3`（提示）
-- `reset.mp3`（重置分数）
+## 自定义与调参
+- 倒计时：`ui.js` 中 `INITIAL_SECONDS`（默认 40）。
+- 提示音：根目录 `timer.mp3`（最后 5 秒每秒播放），静音开关在右上角。
+- AI 搜索：可在 `ai.js` 调整候选数量、搜索深度与评分策略。
+
+## 兼容说明
+使用 ES Modules 与模块化 Worker，建议在本地服务下运行（如上所示）。支持现代浏览器（Chrome/Safari/Firefox 新版）。
