@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const boardElement = document.getElementById('board');
     const statusElement = document.getElementById('status-area');
+    const statusElementMobile = document.getElementById('status-area-mobile');
     const scoreElement = document.getElementById('score-area');
+    const scoreElementMobile = document.getElementById('score-area-mobile');
     const resetButton = document.getElementById('reset-button');
     const aiButton = document.getElementById('ai-button');
     const hintButton = document.getElementById('hint-button');
@@ -44,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelWinButton = document.getElementById('cancel-win-button');
     const toggleThemeButton = document.getElementById('toggle-theme-button');
     const muteButton = document.getElementById('mute-button');
+    const toggleThemeButtonMobile = document.getElementById('toggle-theme-button-mobile');
+    const muteButtonMobile = document.getElementById('mute-button-mobile');
 
     // Audio elements
     const placeSound = document.getElementById('place-sound');
@@ -144,18 +148,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateStatus = () => {
         const player = getCurrentPlayer();
+        const text = aiMode && player === 'white' ? 'AI思考中…' : `轮到 ${player === 'black' ? '黑子' : '白子'}`;
+        statusElement.textContent = text;
+        if (statusElementMobile) statusElementMobile.textContent = text;
         if (aiMode && player === 'white') {
-            statusElement.textContent = 'AI思考中…';
             setBoardInteractive(false);
         } else {
-            statusElement.textContent = `轮到 ${player === 'black' ? '黑子' : '白子'}`;
             setBoardInteractive(true);
         }
     };
 
     const updateScoreDisplay = () => {
         const scores = getScores();
-        scoreElement.textContent = `黑子: ${scores.black} | 白子: ${scores.white}`;
+        const text = `黑子: ${scores.black} | 白子: ${scores.white}`;
+        scoreElement.textContent = text;
+        if (scoreElementMobile) scoreElementMobile.textContent = text;
     };
 
     const resetGame = () => {
@@ -275,40 +282,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Theme and Mute Logic ---
     let isMuted = false;
 
-    const setMuteIcon = () => {
-        const onIcon = muteButton.querySelector('.icon-sound-on');
-        const offIcon = muteButton.querySelector('.icon-sound-off');
+    const setMuteIconFor = (btn) => {
+        if (!btn) return;
+        const onIcon = btn.querySelector('.icon-sound-on');
+        const offIcon = btn.querySelector('.icon-sound-off');
         if (!onIcon || !offIcon) return;
         if (isMuted) {
             onIcon.style.display = 'none';
             offIcon.style.display = '';
-            muteButton.setAttribute('title', '取消静音');
-            muteButton.setAttribute('aria-label', '取消静音');
+            btn.setAttribute('title', '取消静音');
+            btn.setAttribute('aria-label', '取消静音');
         } else {
             onIcon.style.display = '';
             offIcon.style.display = 'none';
-            muteButton.setAttribute('title', '静音');
-            muteButton.setAttribute('aria-label', '静音');
+            btn.setAttribute('title', '静音');
+            btn.setAttribute('aria-label', '静音');
         }
     };
+    const setMuteIcon = () => { setMuteIconFor(muteButton); setMuteIconFor(muteButtonMobile); };
 
-    const setThemeIcon = () => {
-        const sun = toggleThemeButton.querySelector('.icon-sun');
-        const moon = toggleThemeButton.querySelector('.icon-moon');
+    const setThemeIconFor = (btn) => {
+        if (!btn) return;
+        const sun = btn.querySelector('.icon-sun');
+        const moon = btn.querySelector('.icon-moon');
         const isDark = document.body.classList.contains('dark-theme');
         if (!sun || !moon) return;
         if (isDark) {
             sun.style.display = 'none';
             moon.style.display = '';
-            toggleThemeButton.setAttribute('title', '切换为亮色');
-            toggleThemeButton.setAttribute('aria-label', '切换为亮色');
+            btn.setAttribute('title', '切换为亮色');
+            btn.setAttribute('aria-label', '切换为亮色');
         } else {
             sun.style.display = '';
             moon.style.display = 'none';
-            toggleThemeButton.setAttribute('title', '切换为暗色');
-            toggleThemeButton.setAttribute('aria-label', '切换为暗色');
+            btn.setAttribute('title', '切换为暗色');
+            btn.setAttribute('aria-label', '切换为暗色');
         }
     };
+    const setThemeIcon = () => { setThemeIconFor(toggleThemeButton); setThemeIconFor(toggleThemeButtonMobile); };
 
     const playSound = (sound) => {
         if (isMuted) return;
@@ -316,18 +327,22 @@ document.addEventListener('DOMContentLoaded', () => {
         sound.play().catch(error => console.error("Audio playback failed:", error));
     };
 
-    toggleThemeButton.addEventListener('click', () => {
+    const onToggleTheme = () => {
         document.body.classList.toggle('dark-theme');
         const isDark = document.body.classList.contains('dark-theme');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         setThemeIcon();
-    });
+    };
+    toggleThemeButton?.addEventListener('click', onToggleTheme);
+    toggleThemeButtonMobile?.addEventListener('click', onToggleTheme);
 
-    muteButton.addEventListener('click', () => {
+    const onToggleMute = () => {
         isMuted = !isMuted;
         localStorage.setItem('muted', isMuted);
         setMuteIcon();
-    });
+    };
+    muteButton?.addEventListener('click', onToggleMute);
+    muteButtonMobile?.addEventListener('click', onToggleMute);
 
     const loadPreferences = () => {
         const savedTheme = localStorage.getItem('theme');

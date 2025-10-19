@@ -8,10 +8,37 @@
 </head>
 <body>
     <div id="game-container">
+        <!-- 顶部信息栏（移动端显示在最上方） -->
+        <div id="top-bar" class="top-bar" aria-label="顶部信息">
+            <div class="top-text">
+                <h1>五子棋</h1>
+                <div id="status-area-mobile" aria-live="polite">轮到黑子</div>
+                <div id="score-area-mobile">黑子: 0 | 白子: 0</div>
+            </div>
+            <div id="top-tools" class="top-tools" aria-label="全局工具">
+                <button id="mute-button-mobile" class="icon-btn" aria-label="静音" title="静音">
+                    <svg class="icon icon-sound-on" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                        <path fill="currentColor" d="M3 10v4h4l5 4V6l-5 4H3zm12.5 2a3.5 3.5 0 0 0-2.5-3.35v6.7A3.5 3.5 0 0 0 15.5 12zm0-6a9.5 9.5 0 0 1 0 12"></path>
+                    </svg>
+                    <svg class="icon icon-sound-off" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none">
+                        <path fill="currentColor" d="M3 10v4h4l5 4V6l-5 4H3zm14.59-4L21 9.41 18.41 12 21 14.59 17.59 18 15 15.41 12.41 18 10 15.59 12.59 13 10 10.41 12.41 8 15 10.59 17.59 8z"></path>
+                    </svg>
+                </button>
+                <button id="toggle-theme-button-mobile" class="icon-btn" aria-label="切换主题" title="切换主题">
+                    <svg class="icon icon-sun" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                        <path fill="currentColor" d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10-9h-2v3h2V4zm7.07 1.05l-1.79-1.79-1.8 1.79 1.8 1.79 1.79-1.79zM20 11v2h3v-2h-3zm-9 9h2v-3h-2v3zm6.24-2.16l1.79 1.79 1.8-1.79-1.8-1.79-1.79 1.79zM12 8a4 4 0 100 8 4 4 0 000-8zM4.93 17.95l1.79-1.79-1.8-1.79-1.79 1.79 1.8 1.79z"></path>
+                    </svg>
+                    <svg class="icon icon-moon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none">
+                        <path fill="currentColor" d="M12 2a9.99 9.99 0 00-7.07 17.07A10 10 0 0022 12c0-.51-.04-1.01-.11-1.5A7 7 0 0112 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <div id="main-game-area">
             <div id="board"></div>
             <div id="sidebar">
-                <!-- 右上角图标放在标题区域右上角，不遮挡棋盘 -->
+                <!-- 桌面端右上角工具 -->
                 <div id="container-tools" class="container-tools" aria-label="容器工具">
                     <button id="mute-button" class="icon-btn" aria-label="静音" title="静音">
                         <svg class="icon icon-sound-on" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
@@ -39,7 +66,6 @@
                     <button id="ai-button">人机对战</button>
                     <button id="hint-button">提示</button>
                     <button id="reset-score-button">重置分数</button>
-                    <!-- 主题与静音按钮在右侧标题区域右上角 -->
                 </div>
             </div>
         </div>
