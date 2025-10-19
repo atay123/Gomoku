@@ -344,6 +344,19 @@ h1 {
 }
 
 @media (max-width: 850px) {
+    /* 移动端整体禁止页面下拉/滚动 */
+    html, body {
+        height: 100%;
+        overflow: hidden;              /* 禁止产生滚动条 */
+        overscroll-behavior: none;     /* 禁止回弹/下拉刷新（支持的浏览器） */
+        touch-action: none;            /* 禁止触控拖拽产生滚动 */
+    }
+
+    #game-container {
+        height: 100vh;                 /* 填满屏幕高度 */
+        overflow: hidden;              /* 容器不滚动 */
+    }
+
     #main-game-area {
         flex-direction: column;
         align-items: center;

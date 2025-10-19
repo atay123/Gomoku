@@ -6,6 +6,13 @@ import {
 import { findBestMove, findBestMoveFor } from './ai.js?v=1';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 移动端兜底：阻止触控拖拽导致页面下拉/回弹
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    }
     const boardElement = document.getElementById('board');
     const statusElement = document.getElementById('status-area');
     const scoreElement = document.getElementById('score-area');
