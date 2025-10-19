@@ -88,3 +88,6 @@ const checkWin = (row, col, player) => {
 export const getPossibleMoves = (b = board) => {
     return getPossibleMovesFor(b);
 }
+
+// 非落子结束对局（如超时认负）
+export const forceGameOver = () => { gameOver = true; };

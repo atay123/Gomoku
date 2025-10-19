@@ -1,7 +1,7 @@
 import { 
     getBoard, getCurrentPlayer, isGameOver, placePiece, togglePlayer, 
     resetGame as resetGameState, updateScore, resetScore as resetScoreState, getScores, 
-    getPossibleMoves
+    getPossibleMoves, forceGameOver
 } from './game.js';
 import { BOARD_SIZE } from './utils.js';
 
@@ -32,6 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusElementMobile = document.getElementById('status-area-mobile');
     const scoreElement = document.getElementById('score-area');
     const scoreElementMobile = document.getElementById('score-area-mobile');
+    // 记分板（桌面/移动端）
+    const scoreDigitsDesktop = document.getElementById('score-digits-desktop');
+    const scoreDigitsMobile = document.getElementById('score-digits-mobile');
+    const playerBlackDesktop = document.getElementById('player-black-desktop');
+    const playerWhiteDesktop = document.getElementById('player-white-desktop');
+    const playerBlackMobile = document.getElementById('player-black-mobile');
+    const playerWhiteMobile = document.getElementById('player-white-mobile');
+    const timerBlackDesktop = document.getElementById('timer-black');
+    const timerWhiteDesktop = document.getElementById('timer-white');
+    const timerBlackMobile = document.getElementById('timer-black-mobile');
+    const timerWhiteMobile = document.getElementById('timer-white-mobile');
     const resetButton = document.getElementById('reset-button');
     const aiButton = document.getElementById('ai-button');
     const hintButton = document.getElementById('hint-button');
@@ -55,8 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetSound = document.getElementById('reset-sound');
     const hintSound = document.getElementById('hint-sound');
     const resetScoreSound = document.getElementById('reset-score-sound');
+    const timerSound = document.getElementById('timer-sound');
 
     let aiMode = false;
+    // 计时（每方 40 秒）
+    const INITIAL_SECONDS = 40;
+    let timeBlack = INITIAL_SECONDS;
+    let timeWhite = INITIAL_SECONDS;
+    let tickHandle = null;
+    let tickingPlayer = 'black';
 
 
     const renderBoard = () => {
@@ -121,21 +139,98 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const stopTimer = () => { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+    const formatTime = (s) => {
+        const m = Math.floor(s / 60).toString().padStart(2, '0');
+        const ss = (s % 60).toString().padStart(2, '0');
+        return `${m}:${ss}`;
+    };
+    const setRingVars = (container, remaining) => {
+        if (!container) return;
+        const avatar = container.querySelector('.avatar');
+        if (!avatar) return;
+        const deg = Math.max(0, Math.round((remaining / INITIAL_SECONDS) * 360));
+        const warnThreshold = Math.max(8, Math.floor(INITIAL_SECONDS * 0.25));
+        const color = remaining <= warnThreshold ? '#ff3b30' : getComputedStyle(document.documentElement).getPropertyValue('--button-bg-color') || '#0a84ff';
+        avatar.style.setProperty('--pdeg', `${deg}deg`);
+        avatar.style.setProperty('--ring-color', color.trim());
+    };
+
+    const updateTimerDisplays = () => {
+        const tb = formatTime(timeBlack);
+        const tw = formatTime(timeWhite);
+        if (timerBlackDesktop) timerBlackDesktop.textContent = tb;
+        if (timerWhiteDesktop) timerWhiteDesktop.textContent = tw;
+        if (timerBlackMobile) timerBlackMobile.textContent = tb;
+        if (timerWhiteMobile) timerWhiteMobile.textContent = tw;
+
+        setRingVars(playerBlackDesktop, timeBlack);
+        setRingVars(playerBlackMobile, timeBlack);
+        setRingVars(playerWhiteDesktop, timeWhite);
+        setRingVars(playerWhiteMobile, timeWhite);
+    };
+    const startTimerFor = (player) => {
+        stopTimer();
+        tickingPlayer = player;
+        if (player === 'black') timeBlack = INITIAL_SECONDS; else timeWhite = INITIAL_SECONDS;
+        tickHandle = setInterval(() => {
+            if (player === 'black') timeBlack = Math.max(0, timeBlack - 1); else timeWhite = Math.max(0, timeWhite - 1);
+            updateTimerDisplays();
+            const remaining = player === 'black' ? timeBlack : timeWhite;
+            if (remaining > 0 && remaining <= 5) {
+                playSound(timerSound);
+            }
+            if ((player === 'black' && timeBlack <= 0) || (player === 'white' && timeWhite <= 0)) {
+                stopTimer();
+                forceGameOver();
+                const winner = player === 'black' ? 'white' : 'black';
+                handleWinByTimeout(winner);
+            }
+        }, 1000);
+    };
+    const addPulse = (container) => {
+        if (!container) return;
+        const av = container.querySelector('.avatar');
+        if (!av) return;
+        av.classList.remove('pulse');
+        // 强制重绘以重启动画
+        // eslint-disable-next-line no-unused-expressions
+        av.offsetWidth;
+        av.classList.add('pulse');
+        setTimeout(() => av.classList.remove('pulse'), 320);
+    };
+    const setActivePlayerVisual = (player) => {
+        const active = 'active';
+        [playerBlackDesktop, playerBlackMobile].forEach(el => el?.classList.toggle(active, player === 'black'));
+        [playerWhiteDesktop, playerWhiteMobile].forEach(el => el?.classList.toggle(active, player === 'white'));
+        if (player === 'black') { addPulse(playerBlackDesktop); addPulse(playerBlackMobile); }
+        else { addPulse(playerWhiteDesktop); addPulse(playerWhiteMobile); }
+    };
+
     const handleWin = (player, winningLine) => {
         playSound(winSound);
         updateScore(player);
         updateScoreDisplay();
-
-        for (const piece of winningLine) {
-            const pieceElement = boardElement.querySelector(`[data-row='${piece.row}'][data-col='${piece.col}']`).firstChild;
-            if (pieceElement) {
-                pieceElement.classList.add('winning-piece');
+        stopTimer();
+        if (winningLine) {
+            for (const piece of winningLine) {
+                const pieceElement = boardElement.querySelector(`[data-row='${piece.row}'][data-col='${piece.col}']`).firstChild;
+                if (pieceElement) {
+                    pieceElement.classList.add('winning-piece');
+                }
             }
         }
 
         setTimeout(() => {
             showWinModal(player);
         }, 1500);
+    };
+
+    const handleWinByTimeout = (winner) => {
+        playSound(winSound);
+        updateScore(winner);
+        updateScoreDisplay();
+        setTimeout(() => { showWinModal(winner); }, 300);
     };
 
     const setBoardInteractive = (enabled) => {
@@ -151,11 +246,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = aiMode && player === 'white' ? 'AI思考中…' : `轮到 ${player === 'black' ? '黑子' : '白子'}`;
         statusElement.textContent = text;
         if (statusElementMobile) statusElementMobile.textContent = text;
+        setActivePlayerVisual(player);
         if (aiMode && player === 'white') {
             setBoardInteractive(false);
         } else {
             setBoardInteractive(true);
         }
+        startTimerFor(player);
     };
 
     const updateScoreDisplay = () => {
@@ -163,6 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = `黑子: ${scores.black} | 白子: ${scores.white}`;
         scoreElement.textContent = text;
         if (scoreElementMobile) scoreElementMobile.textContent = text;
+        const digits = `${scores.black} : ${scores.white}`;
+        if (scoreDigitsDesktop) scoreDigitsDesktop.textContent = digits;
+        if (scoreDigitsMobile) scoreDigitsMobile.textContent = digits;
     };
 
     const resetGame = () => {
@@ -171,6 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGameState();
         renderBoard();
         updateStatus();
+        timeBlack = INITIAL_SECONDS;
+        timeWhite = INITIAL_SECONDS;
+        updateTimerDisplays();
     };
 
     const resetScore = () => {
@@ -372,4 +475,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderBoard();
     updateStatus();
     updateScoreDisplay();
+    updateTimerDisplays();
 });
