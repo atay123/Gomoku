@@ -30,15 +30,18 @@ python3 -m http.server 8000
 ## 文件结构
 - `index.html`：页面骨架、音频资源、双 Canvas 容器。
 - `style.css`：布局与主题、记分板/计时环、动画与移动端适配。
-- `utils.js`：公共常量与工具（`BOARD_SIZE`、方向、`inBounds`、`getPossibleMovesFor(board)`）。
-- `game.js`：规则与状态管理（落子、胜负、得分、候选落点、强制结束）。
-- `ai.js`：AI 纯函数（`findBestMoveOnBoard(board, color)`）。
-- `ai.worker.js`：后台线程计算最佳落点。
-- `ui.js`：Canvas 绘制、事件处理、计时器/提示音、与 Worker 通信。
+- `js/`：前端脚本（ES Modules）。
+  - `js/utils.js`：公共常量与工具（`BOARD_SIZE`、方向、`inBounds`、`getPossibleMovesFor(board)`）。
+  - `js/game.js`：规则与状态管理（落子、胜负、得分、候选落点、强制结束）。
+  - `js/ai.js`：AI 纯函数（`findBestMoveOnBoard(board, color)`）。
+  - `js/ai.worker.js`：后台线程计算最佳落点。
+  - `js/ui.js`：Canvas 绘制、事件处理、计时器/提示音、与 Worker 通信。
+- `audio/`：音频资源（提示音、落子音、胜利音等）。
+  - `audio/place.mp3`、`audio/win.mp3`、`audio/new.mp3`、`audio/hint.mp3`、`audio/reset.mp3`、`audio/timer.mp3`。
 
 ## 自定义与调参
 - 倒计时：`ui.js` 中 `INITIAL_SECONDS`（默认 40）。
-- 提示音：根目录 `timer.mp3`（最后 5 秒每秒播放），静音开关在右上角。
+- 提示音：`audio/timer.mp3`（最后 5 秒每秒播放），静音开关在右上角。
 - AI 搜索：可在 `ai.js` 调整候选数量、搜索深度与评分策略。
 
 ## 兼容说明
